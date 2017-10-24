@@ -1,7 +1,7 @@
 package servlets;
 
-import businesslogic.UserService;
-import domainmodel.User;
+import businesslogic.NoteService;
+import domainmodel.Note;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -11,29 +11,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UserServlet extends HttpServlet {
+public class NoteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        UserService us = new UserService();
+        NoteService us = new NoteService();
         String action = request.getParameter("action");
+        
         if (action != null && action.equals("view")) {
-            String selectedUsername = request.getParameter("selectedUsername");
+            String selectedId = request.getParameter("selectedId");
             try {
-                User user = us.get(selectedUsername);
-                request.setAttribute("selectedUser", user);
+                Note note = us.get(Integer.parseInt(selectedId));
+                request.setAttribute("selectedId", note);
             } catch (Exception ex) {
-                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        ArrayList<User> users = null;        
+        //I am here...
+        
+        ArrayList<Note> users = null;        
         try {
-            users = (ArrayList<User>) us.getAll();
+            users = (ArrayList<Note>) us.getAll();
         } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("users", users);
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
@@ -51,7 +54,7 @@ public class UserServlet extends HttpServlet {
         String lastname = request.getParameter("lastname");
         int active = request.getParameter("active") != null ? 1 : 0;
 
-        UserService us = new UserService();
+        NoteService us = new NoteService();
 
         try {
             if (action.equals("delete")) {
@@ -66,11 +69,11 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
         }
         
-        ArrayList<User> users = null;
+        ArrayList<Note> users = null;
         try {
-            users = (ArrayList<User>) us.getAll();
+            users = (ArrayList<Note>) us.getAll();
         } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("users", users);
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
