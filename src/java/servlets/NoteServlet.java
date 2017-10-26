@@ -24,7 +24,7 @@ public class NoteServlet extends HttpServlet {
             String selectedId = request.getParameter("selectedId");
             try {
                 Note note = us.get(Integer.parseInt(selectedId));
-                request.setAttribute("selectedId", note);
+                request.setAttribute("selectedNote", note);
             } catch (Exception ex) {
                 Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -32,14 +32,14 @@ public class NoteServlet extends HttpServlet {
         
         //I am here...
         
-        ArrayList<Note> users = null;        
+        ArrayList<Note> notes = null;        
         try {
-            users = (ArrayList<Note>) us.getAll();
+            notes = (ArrayList<Note>) us.getAll();
         } catch (Exception ex) {
             Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("users", users);
-        getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+        request.setAttribute("notes", notes);
+        getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
 
     @Override
@@ -47,35 +47,33 @@ public class NoteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        int active = request.getParameter("active") != null ? 1 : 0;
+        int noteId = Integer.parseInt(request.getParameter("noteid"));
+        //String createdDate = request.getParameter("createddate");
+        String contents = request.getParameter("contents");
 
-        NoteService us = new NoteService();
+        NoteService ns = new NoteService();
 
         try {
             if (action.equals("delete")) {
-                String selectedUsername = request.getParameter("selectedUsername");
-                us.delete(selectedUsername);
+                //It will complain of I assign the variable
+                int selectedId = Integer.parseInt(request.getParameter("selectedId"));
+                ns.delete(selectedId);
             } else if (action.equals("edit")) {
-                us.update(username, password, email, active, firstname, lastname);
+                ns.update(noteId, contents);
             } else if (action.equals("add")) {
-                us.insert(username, password, email, active, firstname, lastname);
+                ns.insert(contents);
             }
         } catch (Exception ex) {
             request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
         }
         
-        ArrayList<Note> users = null;
+        ArrayList<Note> notes = null;
         try {
-            users = (ArrayList<Note>) us.getAll();
+            notes = (ArrayList<Note>) ns.getAll();
         } catch (Exception ex) {
             Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("users", users);
-        getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+        request.setAttribute("notes", notes);
+        getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
 }

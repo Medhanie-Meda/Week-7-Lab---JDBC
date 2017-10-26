@@ -26,7 +26,7 @@
                         <form action="notes" method="post" >
                             <input type="submit" value="Delete">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="selectedId" value="${user.noteId}">
+                            <input type="hidden" name="selectedId" value="${note.noteId}">
                         </form>
                     </td>
                     <!--This is to update the fields-->
@@ -34,7 +34,7 @@
                         <form action="notes" method="get">
                             <input type="submit" value="Edit">
                             <input type="hidden" name="action" value="view">
-                            <input type="hidden" name="selectedId" value="${user.noteId}">
+                            <input type="hidden" name="selectedId" value="${note.noteId}">
                         </form>
                     </td>
                 </tr>
@@ -52,10 +52,10 @@
         </c:if>
         <c:if test="${selectedNote != null}">
             <h3>Edit Note</h3>
-            <form action="users" method="POST">
-                note ID <input type="text" name="username" value="${selectedNote.noteId}" readonly><br>
-                date created: <input type="text" name="firstname" value="${selectedNote.dateCreated}"><br>
-                contents: <input type="text" name="lastname" value="${selectedNote.contents}"><br>
+            <form action="notes" method="POST">
+                note ID <input type="text" name="noteid" value="${selectedNote.noteId}" readonly><br>
+                date created: <input type="text" name="datecreated" value="${selectedNote.dateCreated}"><br>
+                contents: <input type="text" name="contents" value="${selectedNote.contents}"><br>
                 <input type="hidden" name="action" value="edit">
                 <input type="submit" value="Save">
             </form>

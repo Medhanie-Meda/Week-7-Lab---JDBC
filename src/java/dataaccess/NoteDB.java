@@ -67,7 +67,7 @@ public class NoteDB {
         ResultSet rs = null;
 
         try {
-            ps = connection.prepareStatement("SELECT * FROM note;");
+            ps = connection.prepareStatement("SELECT * FROM Note;");
             rs = ps.executeQuery();
             List<Note> notes = new ArrayList<>();
             while (rs.next()) {
@@ -91,7 +91,7 @@ public class NoteDB {
     /**
      * Get a single user by their username.
      *
-     * @param username The unique username.
+     * @param noteId The unique username.
      * @return A Note object if found, null otherwise.
      * @throws NotesDBException
      */
@@ -99,7 +99,7 @@ public class NoteDB {
     {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
-        String selectSQL = "SELECT * FROM Note WHERE noteId = ?";
+        String selectSQL = "SELECT * FROM note WHERE noteId = ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -131,7 +131,7 @@ public class NoteDB {
     {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
-        String preparedQuery = "DELETE FROM Note WHERE noteId = ?";
+        String preparedQuery = "DELETE FROM note WHERE noteId = ?";
         PreparedStatement ps;
 
         try {
