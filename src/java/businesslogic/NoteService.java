@@ -2,6 +2,7 @@ package businesslogic;
 
 import dataaccess.NoteDB;
 import domainmodel.Note;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,13 +36,9 @@ public class NoteService {
 
     public int insert(String contents) throws Exception {
         Note note = new Note(contents);
-        //note.setDateCreated();
+        java.util.Date uDate = new java.util.Date();  
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        note.setDateCreated(sDate);
         return userDB.insert(note);
-    }
-    
-    public String getBackupFolderName() {
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("mm-dd-yyyy");
-        return sdf.format(date);
-    }
+    }       
 }

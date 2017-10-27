@@ -39,16 +39,14 @@ public class NoteDB {
 
         try {
             String preparedSQL = "UPDATE Note SET "
-                    + "noteId = ?, "
-                    + "dateCreated = ?, "
-                    + "contents = ? ";
+                    + "contents = ? "
+                    + "Where noteId= ?;";
 
             PreparedStatement ps = connection.prepareStatement(preparedSQL);
-
-            ps.setInt(1, note.getNoteId());
-            ps.setDate(2, (Date) note.getDateCreated());
-            ps.setString(3, note.getContents());
-
+            
+           // ps.setDate(1, (Date) note.getDateCreated());
+            ps.setString(1, note.getContents());
+            ps.setInt(2, note.getNoteId());
             int rows = ps.executeUpdate();
             return rows;
         } catch (SQLException ex) {

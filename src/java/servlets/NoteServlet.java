@@ -47,9 +47,9 @@ public class NoteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        int noteId = Integer.parseInt(request.getParameter("noteid"));
+        
         //String createdDate = request.getParameter("createddate");
-        String contents = request.getParameter("contents");
+        if(action==null) action="";
 
         NoteService ns = new NoteService();
 
@@ -59,8 +59,11 @@ public class NoteServlet extends HttpServlet {
                 int selectedId = Integer.parseInt(request.getParameter("selectedId"));
                 ns.delete(selectedId);
             } else if (action.equals("edit")) {
+                int noteId = Integer.parseInt(request.getParameter("noteid"));
+                String contents = request.getParameter("contents");
                 ns.update(noteId, contents);
             } else if (action.equals("add")) {
+                String contents = request.getParameter("contents");
                 ns.insert(contents);
             }
         } catch (Exception ex) {
